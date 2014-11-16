@@ -1,0 +1,14 @@
+{
+    "name"       : "poirot/rpc",
+    "description": "Remote Procedure Call Library",
+    "type"       : "library",
+    "authors": [
+        {
+            "name": "Payam Naderi",
+            "email": "naderi.payam@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "target-dir": "Poirot/Rpc",
+    "autoload"  : { "psr-0": { "Poirot\\Rpc": "." } }
+}
