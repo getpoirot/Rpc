@@ -2,6 +2,7 @@
 namespace Poirot\Rpc\Client\Platform;
 
 use Poirot\Rpc\Request\MethodInterface;
+use Poirot\Rpc\Response\ResponseInterface;
 
 interface PlatformInterface
 {
@@ -14,4 +15,14 @@ interface PlatformInterface
      * @return mixed
      */
     public function buildExpression(MethodInterface $method);
+
+    /**
+     * Build Response from server result
+     *
+     * @param mixed $result Server Result
+     *
+     * @throws \Exception Throw Exceptions on Response Failed
+     * @return ResponseInterface
+     */
+    public function buildResponse($result);
 }

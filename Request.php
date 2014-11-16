@@ -6,10 +6,16 @@ use Poirot\Rpc\Client\ClientInterface;
 use Poirot\Rpc\Request\Method;
 use Poirot\Rpc\Request\MethodInterface;
 use Poirot\Rpc\Request\RequestInterface;
+use Poirot\Rpc\Response\ResponseInterface;
 
 class Request extends Method implements
     RequestInterface
 {
+    /**
+     * @var ClientInterface
+     */
+    protected $client;
+
     /**
      * Construct
      *
@@ -40,17 +46,22 @@ class Request extends Method implements
      *
      * @param MethodInterface $method Rpc Method
      *
-     * @return Response
+     * @return ResponseInterface
      */
     public function call(MethodInterface $method = null)
     {
         ($method) ?: $this;
-        
-        // get connection from client
-        // build method and params via platform
-        // send request
-        // build response via platform
-        // return response
+
+        $client   = $this->getClient();
+        $platform = $client->getPlatform();
+
+        $expr     = $platform->buildExpression($method);
+        $result   = $client->getConnection()
+            ->exec($expr);
+
+        $response = $platform->buildResponse($result);
+
+        return $response;
     }
 
     /**
@@ -62,7 +73,9 @@ class Request extends Method implements
      */
     public function setClient(ClientInterface $client)
     {
-        // TODO: Implement setClient() method.
+        $this->client = $client;
+
+        return $this;
     }
 
     /**
@@ -72,7 +85,7 @@ class Request extends Method implements
      */
     public function getClient()
     {
-        // TODO: Implement getClient() method.
+        return $this->client;
     }
 }
  

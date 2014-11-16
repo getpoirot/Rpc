@@ -2,29 +2,45 @@
 namespace Poirot\Rpc;
 
 use Poirot\Rpc\Client\AbstractClient;
-use Poirot\Rpc\Client\Platform\PlatformInterface;
+use Poirot\Rpc\Client\Connection\ConnectionInterface;
+use Poirot\Rpc\Client\Json\JsonConnection;
+use Poirot\Rpc\Client\Json\JsonPlatform;
 
 class Json extends AbstractClient
 {
+    /**
+     * @var JsonPlatform
+     */
+    protected $platform;
+
+    /**
+     * @var JsonConnection
+     */
+    protected $conn;
+
     /**
      * Get Client Platform
      * - used by request to build params for
      *   rpc call and response
      *
-     * @return PlatformInterface
+     * @return JsonPlatform
      */
     public function getPlatform()
     {
-        // TODO: Implement getPlatform() method.
+        ($this->platform) ?: $this->platform = new JsonPlatform();
+
+        return $this->platform;
     }
 
     /**
      * Get Connection Adapter
      *
-     * @return mixed
+     * @return ConnectionInterface
      */
     public function getConnection()
     {
-        // TODO: Implement getConnection() method.
+        ($this->conn) ?: $this->conn = new JsonConnection();
+
+        return $this->conn;
     }
 }
