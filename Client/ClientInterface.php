@@ -1,7 +1,10 @@
 <?php
 namespace Poirot\Rpc\Client;
 
-interface ClientInterface 
+use Poirot\Rpc\Client\Platform\PlatformInterface;
+use Poirot\Rpc\Request\RequestInterface;
+
+interface ClientInterface
 {
     /**
      * Get Request Object Interface
@@ -11,21 +14,29 @@ interface ClientInterface
     public function request();
 
     /**
+     * Set Server Uri
+     *
+     * @param string $uri Server Uri
+     *
+     * @return $this
+     */
+    public function setServerUri($uri);
+
+    /**
+     * Get Server Uri
+     *
+     * @return string
+     */
+    public function getServerUri();
+
+    /**
      * Get Client Platform
      * - used by request to build params for
      *   rpc call and response
      *
-     * @return ClientPlatformInterface
+     * @return PlatformInterface
      */
     public function getPlatform();
-
-    /**
-     * Set Connection Adapter
-     *
-     * @param $connection Connection Adapter
-     * @return $this
-     */
-    public function setConnection($connection);
 
     /**
      * Get Connection Adapter

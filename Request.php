@@ -1,12 +1,14 @@
 <?php
 namespace Poirot\Rpc;
 
+use Poirot\Collection\Entity;
 use Poirot\Rpc\Client\ClientInterface;
 use Poirot\Rpc\Request\Method;
+use Poirot\Rpc\Request\MethodInterface;
 use Poirot\Rpc\Request\RequestInterface;
-use Poirot\Rpc\Request\Response;
 
-class Request implements RequestInterface
+class Request extends Method implements
+    RequestInterface
 {
     /**
      * Construct
@@ -19,63 +21,36 @@ class Request implements RequestInterface
     }
 
     /**
+     * Call a method in this namespace.
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return null
+     */
+    public function __call($method, $args)
+    {
+        parent::__call($method, $args);
+
+        return $this->call($this);
+    }
+
+    /**
      * Send Rpc Request
      *
-     * @param mixed $method Rpc Method
-     * @param mixed $params Rpc Params
+     * @param MethodInterface $method Rpc Method
      *
      * @return Response
      */
-    public function call($method = null, $params = null)
+    public function call(MethodInterface $method = null)
     {
+        ($method) ?: $this;
+        
         // get connection from client
         // build method and params via platform
         // send request
         // build response via platform
         // return response
-    }
-
-    /**
-     * Set Rpc Method
-     *
-     * @param $method Method
-     * @return $this
-     */
-    public function setMethod($method)
-    {
-        // TODO: Implement setMethod() method.
-    }
-
-    /**
-     * Get Method
-     *
-     * @return mixed
-     */
-    public function getMethod()
-    {
-        // TODO: Implement getMethod() method.
-    }
-
-    /**
-     * Set Method Arguments(parameters)
-     *
-     * @param $params Method Parameters
-     *
-     * @return $this
-     */
-    public function setArgs($params)
-    {
-        // TODO: Implement setArgs() method.
-    }
-
-    /**
-     * Get Method Arguments
-     *
-     * @return mixed
-     */
-    public function getArgs()
-    {
-        // TODO: Implement getArgs() method.
     }
 
     /**

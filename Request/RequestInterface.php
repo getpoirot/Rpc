@@ -1,6 +1,7 @@
 <?php
 namespace Poirot\Rpc\Request;
 
+use Poirot\Collection\Entity;
 use Poirot\Rpc\Client\ClientInterface;
 
 interface RequestInterface
@@ -14,43 +15,11 @@ interface RequestInterface
      * - build response via platform
      * - return response
      *
-     * @param mixed $method Rpc Method
-     * @param mixed $params Rpc Params
+     * @param MethodInterface $method Rpc Method
      *
      * @return Response
      */
-    public function call($method = null, $params = null);
-
-    /**
-     * Set Rpc Method
-     *
-     * @param $method Method
-     * @return $this
-     */
-    public function setMethod($method);
-
-    /**
-     * Get Method
-     *
-     * @return mixed
-     */
-    public function getMethod();
-
-    /**
-     * Set Method Arguments(parameters)
-     *
-     * @param $params Method Parameters
-     *
-     * @return $this
-     */
-    public function setArgs($params);
-
-    /**
-     * Get Method Arguments
-     *
-     * @return mixed
-     */
-    public function getArgs();
+    public function call(MethodInterface $method = null);
 
     /**
      * Set Rpc Client
