@@ -45,6 +45,8 @@ class Method implements MethodInterface
     public function __call($method, $args)
     {
         $this->setMethod($method);
+        $args = (count($args) > 1 || empty($args)) ? $args : $args[0];
+
         $this->setArguments($args);
 
         return '';
