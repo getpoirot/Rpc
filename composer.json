@@ -9,6 +9,9 @@
             "role": "Developer"
         }
     ],
+    "require": {
+        "poirot/collection"  : "dev-master"
+    },
     "target-dir": "Poirot/Rpc",
     "autoload"  : { "psr-0": { "Poirot\\Rpc": "." } }
 }
