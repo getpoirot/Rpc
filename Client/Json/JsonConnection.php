@@ -2,7 +2,7 @@
 namespace Poirot\Rpc\Client\Json;
 
 use Poirot\Collection\Entity;
-use Poirot\Rpc\Client\Connection\ConnectionInterface;
+use Poirot\Rpc\Client\ConnectionInterface;
 
 class JsonConnection implements ConnectionInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Poirot\Rpc\Client\Platform;
+namespace Poirot\Rpc\Client;
 
 use Poirot\Rpc\Request\MethodInterface;
 use Poirot\Rpc\Response\ResponseInterface;

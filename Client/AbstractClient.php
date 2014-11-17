@@ -3,7 +3,6 @@ namespace Poirot\Rpc\Client;
 
 use Poirot\Rpc\Request;
 use Poirot\Rpc\Request\RequestInterface;
-use Poirot\Rpc\Client\Platform\PlatformInterface;
 
 abstract class AbstractClient implements ClientInterface
 {

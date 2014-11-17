@@ -1,7 +1,7 @@
 <?php
 namespace Poirot\Rpc\Client\Json;
 
-use Poirot\Rpc\Client\Platform\PlatformInterface;
+use Poirot\Rpc\Client\PlatformInterface;
 use Poirot\Rpc\Request\MethodInterface;
 use Poirot\Rpc\Response;
 use Poirot\Rpc\Response\ResponseInterface;

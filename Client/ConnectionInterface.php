@@ -1,5 +1,5 @@
 <?php
-namespace Poirot\Rpc\Client\Connection;
+namespace Poirot\Rpc\Client;
 
 use Poirot\Collection\Entity;
 

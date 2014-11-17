@@ -1,7 +1,6 @@
 <?php
 namespace Poirot\Rpc\Client;
 
-use Poirot\Rpc\Client\Platform\PlatformInterface;
 use Poirot\Rpc\Request\RequestInterface;
 
 interface ClientInterface
