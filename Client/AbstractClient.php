@@ -14,7 +14,7 @@ abstract class AbstractClient implements ClientInterface
     protected $serverUri;
 
     /**
-     * @var RequestInterface
+     * @var Request
      */
     protected $request;
 
@@ -31,7 +31,7 @@ abstract class AbstractClient implements ClientInterface
     /**
      * Get Request Object Interface
      *
-     * @return RequestInterface
+     * @return Request
      */
     public function request()
     {
