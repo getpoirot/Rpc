@@ -11,6 +11,17 @@ class Method implements MethodInterface
     protected $namespaces = array();
 
     /**
+     * @var array Getter Namespaces Successive
+     *            build from getter call
+     */
+    protected $namespaces_getter = array();
+
+    /**
+     * @var array Cached State of Namespace During Getters Call
+     */
+    protected $namespaces_cached = array();
+
+    /**
      * @var string Method
      */
     protected $method;
@@ -29,7 +40,7 @@ class Method implements MethodInterface
      */
     public function __get($namespace)
     {
-        $this->addNamespace($namespace);
+        $this->namespaces_getter[] = $namespace;
 
         return $this;
     }
@@ -49,7 +60,33 @@ class Method implements MethodInterface
 
         $this->setArguments($args);
 
+        if ($this->namespaces_getter)
+            // if request build from getters set namespace and reset state
+            $this->setNamespaceFromGetters($this->namespaces_getter);
+
         return '';
+    }
+
+    /**
+     * Set Namespace From Getters
+     * - save current namespace state
+     * - reset getters namespace state
+     * - set namespace to getters
+     *
+     * [php]
+     * ->system->methods->Introspection(['x'=>1,])
+     * [/php]
+     *
+     * @param array $gettersNamespaces Namespaces
+     * @return $this
+     */
+    protected function setNamespaceFromGetters(array $gettersNamespaces)
+    {
+        ($this->namespaces_cached) ?: $this->namespaces_cached = $this->namespaces;
+        $this->setNamespaces($gettersNamespaces);
+        $this->namespaces_getter = array();
+
+        return $this;
     }
 
     /**
@@ -68,6 +105,16 @@ class Method implements MethodInterface
     }
 
     /**
+     * Get Namespace
+     *
+     * @return array
+     */
+    public function getNamespace()
+    {
+        return $this->namespaces;
+    }
+
+    /**
      * Add Namespace
      *
      * @param string $namespace Namespace
@@ -76,19 +123,12 @@ class Method implements MethodInterface
      */
     public function addNamespace($namespace)
     {
-        $this->namespaces[] = $namespace;
+        $namespaces   = $this->getNamespace();
+        $namespaces[] = $namespace;
+
+        $this->namespaces = $namespaces;
 
         return $this;
-    }
-
-    /**
-     * Get Namespace
-     *
-     * @return array
-     */
-    public function getNamespace()
-    {
-        return $this->namespaces;
     }
 
     /**
