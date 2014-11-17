@@ -4,18 +4,49 @@ namespace Poirot\Rpc\Response;
 interface ResponseInterface 
 {
     /**
-     * Get Response Body
+     * Get Response Result
      *
-     * @return string
+     * @return mixed
      */
-    public function getBody();
+    public function getResult();
 
     /**
-     * Set Content Body
+     * Set Result
+     *
+     * @param mixed $result Result
+     *
+     * @return $this
+     */
+    public function setResult($result);
+
+    /**
+     * Set Response Origin Content
      *
      * @param string $content Content Body
      *
      * @return $this
      */
     public function setBody($content);
+
+    /**
+     * Get Response Origin Body Content
+     *
+     * @return string
+     */
+    public function getBody();
+
+    /**
+     * Set Exception
+     *
+     * @param \Exception $exception Exception
+     * @return $this
+     */
+    public function setException(\Exception $exception);
+
+    /**
+     * Get Exception
+     *
+     * @return \Exception | null
+     */
+    public function getException();
 }

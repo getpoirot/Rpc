@@ -59,9 +59,14 @@ class JsonPlatform implements PlatformInterface
         $result = json_decode($result);
 
         $response = new Response();
+        if (isset($result['error']))
+            $response->setException(
+                new \Exception($result['error']['message'], $result['error']['code'])
+            );
+        elseif (isset($result['result']))
+            $response->setResult($result['result']);
 
-        if (isset($result['result']))
-            $response->setBody($result['result']);
+        $response->setBody($result);
 
         return $response;
     }
