@@ -6,27 +6,27 @@ use Poirot\Rpc\Request\RequestInterface;
 interface ClientInterface
 {
     /**
+     * Set Connection
+     *
+     * @param ConnectionInterface $conn Connection Interface
+     *
+     * @return $this
+     */
+    public function setConnection($conn);
+
+    /**
+     * Get Connection Adapter
+     *
+     * @return mixed
+     */
+    public function getConnection();
+
+    /**
      * Get Request Object Interface
      *
      * @return RequestInterface
      */
     public function request();
-
-    /**
-     * Set Server Uri
-     *
-     * @param string $uri Server Uri
-     *
-     * @return $this
-     */
-    public function setServerUri($uri);
-
-    /**
-     * Get Server Uri
-     *
-     * @return string
-     */
-    public function getServerUri();
 
     /**
      * Get Client Platform
@@ -36,11 +36,4 @@ interface ClientInterface
      * @return PlatformInterface
      */
     public function getPlatform();
-
-    /**
-     * Get Connection Adapter
-     *
-     * @return mixed
-     */
-    public function getConnection();
 }

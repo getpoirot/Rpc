@@ -3,14 +3,10 @@ namespace Poirot\Rpc\Client\Json;
 
 use Poirot\Collection\Entity;
 use Poirot\Rpc\Client\ConnectionInterface;
+use Poirot\Rpc\Exception\ExecuteException;
 
 class JsonConnection implements ConnectionInterface
 {
-    /**
-     * @var string Server Uri
-     */
-    protected $serverUri;
-
     /**
      * @var mixed Resource
      */
@@ -22,35 +18,6 @@ class JsonConnection implements ConnectionInterface
     protected $options;
 
     /**
-     * @var boolean Is Connected?
-     */
-    protected $isConn = false;
-
-    /**
-     * Set Server Uri
-     *
-     * @param  mixed $uri Server Uri
-     *
-     * @return $this
-     */
-    public function setServerUri($uri)
-    {
-        $this->serverUri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * Get Server Uri
-     *
-     * @return mixed
-     */
-    public function getServerUri()
-    {
-        return $this->serverUri;
-    }
-
-    /**
      * Get Prepared Resource Connection
      * - prepare resource on method access
      * - flag is connected
@@ -59,30 +26,41 @@ class JsonConnection implements ConnectionInterface
      */
     public function getConnection()
     {
-        $ch = $this->getResource();
+        $ch = $this->getOrigin();
 
-        curl_setopt($ch, CURLOPT_URL, $this->getServerUri());
+        // ...
+        (!$this->option()->has('connection_timeout')) ?:
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->option()->get('connection_timeout'));
 
-        // set resource options
+        // ...
+        (!$this->option()->has('user_agent')) ?:
+            curl_setopt($ch, CURLOPT_USERAGENT, $this->option()->get('user_agent'));
+
+        // ...
+        $serverUri = $this->option()->get('server_uri');
+        if (empty($serverUri))
+            throw new \RuntimeException('"server_uri" is empty.');
+
+        $serverUriPrs = parse_url($serverUri);
+        if (!isset($serverUriPrs['host']))
+            throw new \RuntimeException('Invalid "server_uri" Uri Format, Host not present.');
+
+        if (isset($serverUriPrs['port'])) {
+            curl_setopt($ch, CURLOPT_PORT, $serverUriPrs['port']);
+            unset($serverUriPrs['port']);
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $serverUri);
+
+        // ...
+
         (!$this->option()->has('username')) ?:
             (!$this->option()->has('password')) ?:
             curl_setopt($ch, CURLOPT_USERPWD,
                 $this->option()->get('username').':'.$this->option()->get('password')
             );
 
-        $this->isConn = true;
-
         return $ch;
-    }
-
-    /**
-     * Is Connected
-     *
-     * @return boolean
-     */
-    public function isConnected()
-    {
-        return $this->isConn;
     }
 
     /**
@@ -91,13 +69,16 @@ class JsonConnection implements ConnectionInterface
      *
      * @param mixed $expr Expression
      *
+     * @throws ExecuteException
      * @return mixed Server Result
      */
     public function exec($expr)
     {
         $ch = $this->getConnection();
         curl_setopt($ch, CURLOPT_POSTFIELDS, $expr);
-        $result = curl_exec($ch);
+
+        if (!$result = curl_exec($ch))
+            throw new ExecuteException(curl_error($ch), curl_errno($ch));
 
         return $result;
     }
@@ -119,16 +100,14 @@ class JsonConnection implements ConnectionInterface
      *
      * @return mixed
      */
-    public function getResource()
+    public function getOrigin()
     {
         if ($this->resource)
             return $this->resource;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'JSON-RPC PHP Client');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return response content as result
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Connection: close',
@@ -142,4 +121,3 @@ class JsonConnection implements ConnectionInterface
         return $this->resource = $ch;
     }
 }
- 

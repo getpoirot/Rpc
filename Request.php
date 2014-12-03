@@ -56,6 +56,7 @@ class Request extends Method implements
         $platform = $client->getPlatform();
 
         $expr     = $platform->buildExpression($method);
+
         $result   = $client->getConnection()
             ->exec($expr);
 

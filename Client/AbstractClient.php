@@ -7,13 +7,6 @@ use Poirot\Rpc\Request\RequestInterface;
 abstract class AbstractClient implements ClientInterface
 {
     /**
-     * Server Uri
-     *
-     * @var string
-     */
-    protected $serverUri;
-
-    /**
      * @var Request
      */
     protected $request;
@@ -21,11 +14,29 @@ abstract class AbstractClient implements ClientInterface
     /**
      * Construct
      *
-     * @param string $server Rpc Server Uri
+     * @param ConnectionInterface|string $connection Rpc Server Uri
      */
-    public function __construct($server)
+    public function __construct($connection)
     {
-        $this->setServerUri($server);
+        if ($connection !== null) {
+            if (is_string($connection)) {
+                $conn = $this->getConnection();
+                if ($conn instanceof ConnectionInterface)
+                    $conn->option()->set('server_uri', $connection);
+                else
+                    throw new \RuntimeException(sprintf(
+                        'Invalid Connection "%s"'
+                        , is_object($conn) ? get_class($conn) : gettype($conn)
+                    ));
+            }
+
+            elseif ($connection instanceof ConnectionInterface)
+                $this->setConnection($connection);
+            else throw new \InvalidArgumentException(
+                'Connection must be a serverUri string or Instanceof "ConnectionInterface"'
+                . sprintf('but "%s" given.', is_object($connection) ? get_class($connection) : gettype($connection))
+            );
+        }
     }
 
     /**
@@ -40,44 +51,4 @@ abstract class AbstractClient implements ClientInterface
 
         return $this->request;
     }
-
-    /**
-     * Set Server Uri
-     *
-     * @param string $uri Server Uri
-     *
-     * @return $this
-     */
-    public function setServerUri($uri)
-    {
-        $this->serverUri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * Get Server Uri
-     *
-     * @return string
-     */
-    public function getServerUri()
-    {
-        return $this->serverUri;
-    }
-
-    /**
-     * Get Client Platform
-     * - used by request to build params for
-     *   rpc call and response
-     *
-     * @return PlatformInterface
-     */
-    abstract public function getPlatform();
-
-    /**
-     * Get Connection Adapter
-     *
-     * @return mixed
-     */
-    abstract public function getConnection();
 }

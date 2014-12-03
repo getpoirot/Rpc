@@ -51,9 +51,9 @@ class Response implements ResponseInterface
      *
      * @return $this
      */
-    public function setBody($content)
+    public function setOrigin($content)
     {
-        $this->body = (string) $content;
+        $this->body = $content;
 
         return $this;
     }
@@ -63,7 +63,7 @@ class Response implements ResponseInterface
      *
      * @return string
      */
-    public function getBody()
+    public function getOrigin()
     {
         return $this->body;
     }

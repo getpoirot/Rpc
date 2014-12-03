@@ -2,25 +2,10 @@
 namespace Poirot\Rpc\Client;
 
 use Poirot\Collection\Entity;
+use Poirot\Rpc\Exception\ExecuteException;
 
 interface ConnectionInterface
 {
-    /**
-     * Set Server Uri
-     *
-     * @param  mixed $uri Server Uri
-     *
-     * @return $this
-     */
-    public function setServerUri($uri);
-
-    /**
-     * Get Server Uri
-     *
-     * @return mixed
-     */
-    public function getServerUri();
-
     /**
      * Get Prepared Resource Connection
      * - prepare resource on method access
@@ -31,18 +16,12 @@ interface ConnectionInterface
     public function getConnection();
 
     /**
-     * Is Connected
-     *
-     * @return boolean
-     */
-    public function isConnected();
-
-    /**
      * Execute Expression by send to server
      * and return result
      *
      * @param mixed $expr Expression
      *
+     * @throws ExecuteException
      * @return mixed Server Result
      */
     public function exec($expr);
@@ -59,5 +38,5 @@ interface ConnectionInterface
      *
      * @return mixed
      */
-    public function getResource();
+    public function getOrigin();
 }

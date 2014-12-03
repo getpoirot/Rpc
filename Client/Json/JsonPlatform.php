@@ -14,6 +14,18 @@ class JsonPlatform implements PlatformInterface
     protected $ver = '2.0';
 
     /**
+     * Construct
+     * - Set Version
+     *
+     * @param null|string $ver Version
+     */
+    function __construct($ver = null)
+    {
+        if ($ver !== null)
+            $this->setVer($ver);
+    }
+
+    /**
      * Get Specific RPC Expression
      * to send to RPC Server
      *
@@ -56,17 +68,26 @@ class JsonPlatform implements PlatformInterface
          * {"jsonrpc": "2.0", "result": 19, "id": 4}
          * {"jsonrpc": "2.0", "error": {"code": -32601, "message": "Procedure not found."}, "id": 10}
          */
-        $result = json_decode($result);
 
         $response = new Response();
+
+        $response->setOrigin($result);
+
+        $result = json_decode($result, true);
+        if ($result == null)
+            // Invalid Response
+            $response->setException(
+                new \Exception('Invalid Response Type.', E_USER_ERROR)
+            );
+
+
         if (isset($result['error']))
             $response->setException(
-                new \Exception($result['error']['message'], $result['error']['code'])
+                new \Exception($result['error']['faultString'], $result['error']['faultCode'])
             );
-        elseif (isset($result['result']))
-            $response->setResult($result['result']);
 
-        $response->setBody($result);
+        if (isset($result['result']))
+            $response->setResult($result['result']);
 
         return $response;
     }

@@ -26,14 +26,14 @@ interface ResponseInterface
      *
      * @return $this
      */
-    public function setBody($content);
+    public function setOrigin($content);
 
     /**
      * Get Response Origin Body Content
      *
      * @return string
      */
-    public function getBody();
+    public function getOrigin();
 
     /**
      * Set Exception

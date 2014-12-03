@@ -2,16 +2,22 @@
 namespace Poirot\Rpc;
 
 use Poirot\Rpc\Client\AbstractClient;
+use Poirot\Rpc\Client\ClientInterface;
 use Poirot\Rpc\Client\ConnectionInterface;
 use Poirot\Rpc\Client\Json\JsonConnection;
 use Poirot\Rpc\Client\Json\JsonPlatform;
 
 class Json extends AbstractClient
 {
+    const JSONRPC_VER1 = '1.0';
+    const JSONRPC_VER2 = '2.0';
+
+    public $version = self::JSONRPC_VER2;
+
     /**
      * @var JsonPlatform
      */
-    protected $platform;
+    protected $platform = [];
 
     /**
      * @var JsonConnection
@@ -27,9 +33,24 @@ class Json extends AbstractClient
      */
     public function getPlatform()
     {
-        ($this->platform) ?: $this->platform = new JsonPlatform();
+        (isset($this->platform[$this->version]))
+            ?: $this->platform[$this->version] = new JsonPlatform($this->version);
 
-        return $this->platform;
+        return $this->platform[$this->version];
+    }
+
+    /**
+     * Set Connection
+     *
+     * @param ConnectionInterface $conn Connection Interface
+     *
+     * @return $this
+     */
+    public function setConnection($conn)
+    {
+        $this->conn = $conn;
+
+        return $this;
     }
 
     /**
