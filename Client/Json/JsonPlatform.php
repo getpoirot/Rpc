@@ -83,7 +83,7 @@ class JsonPlatform implements PlatformInterface
 
         if (isset($result['error']))
             $response->setException(
-                new \Exception($result['error']['faultString'], $result['error']['faultCode'])
+                new \Exception($result['error']['message'], $result['error']['code'])
             );
 
         if (isset($result['result']))
