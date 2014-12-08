@@ -1,7 +1,7 @@
 <?php
 namespace Poirot\Rpc\Client;
 
-use Poirot\Collection\Entity;
+use Poirot\Core\Entity;
 use Poirot\Rpc\Exception\ExecuteException;
 
 interface ConnectionInterface

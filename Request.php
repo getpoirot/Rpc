@@ -1,7 +1,6 @@
 <?php
 namespace Poirot\Rpc;
 
-use Poirot\Collection\Entity;
 use Poirot\Rpc\Client\ClientInterface;
 use Poirot\Rpc\Request\Method;
 use Poirot\Rpc\Request\MethodInterface;

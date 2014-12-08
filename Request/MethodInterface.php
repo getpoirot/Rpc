@@ -1,7 +1,7 @@
 <?php
 namespace Poirot\Rpc\Request;
 
-use Poirot\Collection\Entity;
+use Poirot\Core\Entity;
 
 interface MethodInterface
 {

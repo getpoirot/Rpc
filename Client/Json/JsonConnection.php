@@ -1,7 +1,7 @@
 <?php
 namespace Poirot\Rpc\Client\Json;
 
-use Poirot\Collection\Entity;
+use Poirot\Core\Entity;
 use Poirot\Rpc\Client\ConnectionInterface;
 use Poirot\Rpc\Exception\ExecuteException;
 

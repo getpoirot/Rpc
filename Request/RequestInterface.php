@@ -1,8 +1,8 @@
 <?php
 namespace Poirot\Rpc\Request;
 
-use Poirot\Collection\Entity;
 use Poirot\Rpc\Client\ClientInterface;
+use Poirot\Rpc\Response;
 
 interface RequestInterface
 {

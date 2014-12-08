@@ -1,7 +1,7 @@
 <?php
 namespace Poirot\Rpc\Client\Json\Connection;
 
-use Poirot\Collection\Entity;
+use Poirot\Core\Entity;
 
 class Option extends Entity
 {
