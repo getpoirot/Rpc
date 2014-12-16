@@ -3,6 +3,7 @@ namespace Poirot\Rpc\Client;
 
 use Poirot\Rpc\Request;
 use Poirot\Rpc\Request\RequestInterface;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 
 abstract class AbstractClient implements ClientInterface
 {
@@ -22,7 +23,7 @@ abstract class AbstractClient implements ClientInterface
             if (is_string($connection)) {
                 $conn = $this->getConnection();
                 if ($conn instanceof ConnectionInterface)
-                    $conn->option()->set('server_uri', $connection);
+                    $conn->options()->setServerUri($connection);
                 else
                     throw new \RuntimeException(sprintf(
                         'Invalid Connection "%s"'

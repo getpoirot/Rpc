@@ -1,8 +1,8 @@
 <?php
 namespace Poirot\Rpc\Client\Json;
 
-use Poirot\Core\Entity;
 use Poirot\Rpc\Client\ConnectionInterface;
+use Poirot\Rpc\Client\Json\Connection\Options;
 use Poirot\Rpc\Exception\ExecuteException;
 
 class JsonConnection implements ConnectionInterface
@@ -13,7 +13,7 @@ class JsonConnection implements ConnectionInterface
     protected $resource;
 
     /**
-     * @var Entity Options
+     * @var Options
      */
     protected $options;
 
@@ -29,15 +29,15 @@ class JsonConnection implements ConnectionInterface
         $ch = $this->getOrigin();
 
         // ...
-        (!$this->option()->has('connection_timeout')) ?:
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->option()->get('connection_timeout'));
+        (!$this->options()->getConnectionTimeout()) ?:
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->options()->getConnectionTimeout());
 
         // ...
-        (!$this->option()->has('user_agent')) ?:
-            curl_setopt($ch, CURLOPT_USERAGENT, $this->option()->get('user_agent'));
+        (!$this->options()->getUserAgent()) ?:
+            curl_setopt($ch, CURLOPT_USERAGENT, $this->options()->getUserAgent());
 
         // ...
-        $serverUri = $this->option()->get('server_uri');
+        $serverUri = $this->options()->getServerUri();
         if (empty($serverUri))
             throw new \RuntimeException('"server_uri" is empty.');
 
@@ -54,11 +54,11 @@ class JsonConnection implements ConnectionInterface
 
         // ...
 
-        (!$this->option()->has('username')) ?:
-            (!$this->option()->has('password')) ?:
+        /*(!$this->options()->has('username')) ?:
+            (!$this->options()->has('password')) ?:
             curl_setopt($ch, CURLOPT_USERPWD,
-                $this->option()->get('username').':'.$this->option()->get('password')
-            );
+                $this->options()->get('username').':'.$this->options()->get('password')
+            );*/
 
         return $ch;
     }
@@ -86,11 +86,11 @@ class JsonConnection implements ConnectionInterface
     /**
      * Get Options
      *
-     * @return Entity
+     * @return Options
      */
-    public function option()
+    public function options()
     {
-        ($this->options) ?: $this->options = new Entity();
+        ($this->options) ?: $this->options = new Options();
 
         return $this->options;
     }

@@ -2,9 +2,10 @@
 namespace Poirot\Rpc\Client;
 
 use Poirot\Core\Entity;
+use Poirot\Core\Interfaces\OptionsProviderInterface;
 use Poirot\Rpc\Exception\ExecuteException;
 
-interface ConnectionInterface
+interface ConnectionInterface extends OptionsProviderInterface
 {
     /**
      * Get Prepared Resource Connection
@@ -25,13 +26,6 @@ interface ConnectionInterface
      * @return mixed Server Result
      */
     public function exec($expr);
-
-    /**
-     * Get Options
-     *
-     * @return Entity
-     */
-    public function option();
 
     /**
      * Get Connection Engine Resource
