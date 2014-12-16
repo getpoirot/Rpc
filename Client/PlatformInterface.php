@@ -7,8 +7,8 @@ use Poirot\Rpc\Response\ResponseInterface;
 interface PlatformInterface
 {
     /**
-     * Get Specific RPC Expression
-     * to send to RPC Server
+     * Build Specific Client RPC Expression from Method -
+     * -to send to RPC Server
      *
      * @param MethodInterface $method Method Interface
      *

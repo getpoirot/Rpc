@@ -24,6 +24,10 @@ interface ClientInterface
     /**
      * Get Request Object Interface
      *
+     * - inject client to request object
+     *   * to get platform to build response/expression
+     *   * to get connection to exec expression
+     *
      * @return RequestInterface
      */
     public function request();

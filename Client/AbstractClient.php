@@ -21,16 +21,17 @@ abstract class AbstractClient implements ClientInterface
     {
         if ($connection !== null) {
             if (is_string($connection)) {
+                // Server Uri As Construct Argument
                 $conn = $this->getConnection();
                 if ($conn instanceof ConnectionInterface)
-                    $conn->options()->setServerUri($connection);
+                    if (isset($conn->options()->{'server_uri'}))
+                        $conn->options()->setServerUri($connection);
                 else
                     throw new \RuntimeException(sprintf(
                         'Invalid Connection "%s"'
                         , is_object($conn) ? get_class($conn) : gettype($conn)
                     ));
             }
-
             elseif ($connection instanceof ConnectionInterface)
                 $this->setConnection($connection);
             else throw new \InvalidArgumentException(

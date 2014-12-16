@@ -9,8 +9,7 @@ interface ConnectionInterface extends OptionsProviderInterface
 {
     /**
      * Get Prepared Resource Connection
-     * - prepare resource on method access
-     * - flag is connected
+     * - prepare resource with options
      *
      * @return mixed
      */
