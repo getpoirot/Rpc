@@ -7,6 +7,27 @@ use Poirot\Rpc\Client\Json\Connection\Options;
 use Poirot\Rpc\Client\Json\JsonConnection;
 use Poirot\Rpc\Client\Json\JsonPlatform;
 
+/**
+ *
+ * ~~~
+ * $jsonRpc = new Json(
+ *  # pass options as construct, the options will merge
+ *  new Options(['server_uri' => '192.168.50.4:7080'])
+ * );
+ *
+ * # ResponseInterface
+ * $response = $jsonRpc->request()
+ *  ->namespace
+ *  ->method();
+ *
+ * if (!$response->getException()) {
+ *  $result = $response->getResult();
+ *  $originResponseBody = $response->getOrigin();
+ * } else
+ *  throw $res->getException();
+ * 
+ * ~~~
+ */
 class Json extends AbstractClient
 {
     const JSONRPC_VER1 = '1.0';
