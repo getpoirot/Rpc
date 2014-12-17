@@ -52,11 +52,11 @@ class Request extends Method implements
         ($method) ?: $this;
 
         $client   = $this->getClient();
-        $platform = $client->getPlatform();
+        $platform = $client->platform();
 
         $expr     = $platform->buildExpression($method);
 
-        $result   = $client->getConnection()
+        $result   = $client->connection()
             ->exec($expr);
 
         $response = $platform->buildResponse($result);
