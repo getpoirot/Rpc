@@ -1,9 +1,8 @@
 <?php
 namespace Poirot\Rpc\Client;
 
+use Poirot\Core\AbstractOptions;
 use Poirot\Rpc\Request;
-use Poirot\Rpc\Request\RequestInterface;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
 
 abstract class AbstractClient implements ClientInterface
 {
@@ -15,29 +14,14 @@ abstract class AbstractClient implements ClientInterface
     /**
      * Construct
      *
-     * @param ConnectionInterface|string $connection Rpc Server Uri
+     * @param AbstractOptions $options Connection Options
      */
-    public function __construct($connection)
+    public function __construct(AbstractOptions $options = null)
     {
-        if ($connection !== null) {
-            if (is_string($connection)) {
-                // Server Uri As Construct Argument
-                $conn = $this->getConnection();
-                if ($conn instanceof ConnectionInterface)
-                    if (isset($conn->options()->{'server_uri'}))
-                        $conn->options()->setServerUri($connection);
-                else
-                    throw new \RuntimeException(sprintf(
-                        'Invalid Connection "%s"'
-                        , is_object($conn) ? get_class($conn) : gettype($conn)
-                    ));
-            }
-            elseif ($connection instanceof ConnectionInterface)
-                $this->setConnection($connection);
-            else throw new \InvalidArgumentException(
-                'Connection must be a serverUri string or Instanceof "ConnectionInterface"'
-                . sprintf('but "%s" given.', is_object($connection) ? get_class($connection) : gettype($connection))
-            );
+        if ($options !== null) {
+            foreach($options->props()->writable as $prop)
+                // Merge Options
+                $this->connection()->options()->{$prop} = $options->{$prop};
         }
     }
 
@@ -46,7 +30,7 @@ abstract class AbstractClient implements ClientInterface
      *
      * @return Request
      */
-    public function request()
+    function request()
     {
         if (!$this->request)
             $this->request = new Request($this);
