@@ -1,7 +1,6 @@
 <?php
 namespace Poirot\Rpc\Client;
 
-use Poirot\Core\Entity;
 use Poirot\Core\Interfaces\OptionsProviderInterface;
 use Poirot\Rpc\Exception\ExecuteException;
 

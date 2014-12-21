@@ -1,7 +1,7 @@
 {
-    "name"       : "poirot/rpc",
+    "name": "poirot/rpc",
     "description": "Remote Procedure Call Library",
-    "type"       : "library",
+    "type": "library",
     "authors": [
         {
             "name": "Payam Naderi",
@@ -10,8 +10,12 @@
         }
     ],
     "require": {
-        "poirot/collection"  : "dev-master"
+        "poirot/core": "dev-master"
     },
     "target-dir": "Poirot/Rpc",
-    "autoload"  : { "psr-0": { "Poirot\\Rpc": "." } }
+    "autoload": {
+        "psr-0": {
+            "Poirot\\Rpc": "."
+        }
+    }
 }

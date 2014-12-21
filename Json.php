@@ -25,7 +25,7 @@ use Poirot\Rpc\Client\Json\JsonPlatform;
  *  $originResponseBody = $response->getOrigin();
  * } else
  *  throw $res->getException();
- * 
+ *
  * ~~~
  */
 class Json extends AbstractClient
