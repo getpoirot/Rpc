@@ -18,7 +18,12 @@ use Poirot\Rpc\Client\Json\JsonPlatform;
  * # ResponseInterface
  * $response = $jsonRpc->request()
  *  ->namespace
- *  ->method();
+ *  ->method('arg1', ['arg2_array' => 'value'], $arg3);
+ *
+ *   For named parameters implementation
+ *    $res = $jsonRpc->request()
+ *      ->namespace(null, ['k'=>'v']);
+ *      // "params": {"k": "v"}
  *
  * if (!$response->getException()) {
  *  $result = $response->getResult();
