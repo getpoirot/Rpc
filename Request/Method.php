@@ -2,9 +2,12 @@
 namespace Poirot\Rpc\Request;
 
 use Poirot\Core\Entity;
+use Poirot\Core\BuilderSetterTrait;
 
 class Method implements MethodInterface
 {
+    use BuilderSetterTrait;
+
     /**
      * @var array Method Namespaces
      */
@@ -30,6 +33,22 @@ class Method implements MethodInterface
      * @var array Method Arguments
      */
     protected $args = array();
+
+    /**
+     * Construct
+     *
+     * - Build Method From Setter Setup Options
+     *   'namespaces'
+     *   'method'
+     *   'arguments'
+     *
+     * @param array $setupSetter
+     */
+    function __construct(array $setupSetter = array())
+    {
+       if ($setupSetter)
+           $this->setupFromArray($setupSetter);
+    }
 
     /**
      * Get to next successive namespace
