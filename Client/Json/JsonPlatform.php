@@ -35,17 +35,20 @@ class JsonPlatform implements PlatformInterface
      */
     public function buildExpression(MethodInterface $method)
     {
+        $nspMethod = $method->getNamespace();
+        $nspMethod[] = $method->getMethod();
+
         if (version_compare($this->getVer(), '2.0') == -1 )
         {
             $expArray = array(
-                'method'  => implode('.', $method->getNamespace()).$method->getMethod(),
+                'method'  => implode('.', $nspMethod),
                 'params'  => $method->getArguments(),
                 'id'      => uniqid()
             );
         } else {
             $expArray = array(
                 'jsonrpc' => $this->getVer(),
-                'method'  => implode('.', $method->getNamespace()).$method->getMethod(),
+                'method'  => implode('.', $nspMethod),
                 'params'  => $method->getArguments(),
                 'id'      => uniqid()
             );
