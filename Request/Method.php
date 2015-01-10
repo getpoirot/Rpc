@@ -76,8 +76,9 @@ class Method implements MethodInterface
     {
         $this->setMethod($method);
 
-        if (!empty($args) && count($args) == 2 &&
-            is_array($args[1])
+        if (!empty($args) && count($args) == 2
+            && $args[0] === null
+            && is_array($args[1])
             && array_values($args[1]) != $args[1] // associated array
         )
             // implement named parameters
