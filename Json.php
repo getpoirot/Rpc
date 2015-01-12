@@ -3,7 +3,7 @@ namespace Poirot\Rpc;
 
 use Poirot\Rpc\Client\AbstractClient;
 use Poirot\Rpc\Client\ConnectionInterface;
-use Poirot\Rpc\Client\Json\Connection\Options;
+use Poirot\Rpc\Client\Json\Connection\Options as JsonOptions;
 use Poirot\Rpc\Client\Json\JsonConnection;
 use Poirot\Rpc\Client\Json\JsonPlatform;
 
@@ -53,9 +53,9 @@ class Json extends AbstractClient
     /**
      * Construct
      *
-     * @param Options $options
+     * @param Array|JsonOptions $options
      */
-    function __construct(Options $options = null)
+    function __construct($options = null)
     {
         parent::__construct($options);
     }

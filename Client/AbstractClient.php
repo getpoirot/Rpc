@@ -14,15 +14,25 @@ abstract class AbstractClient implements ClientInterface
     /**
      * Construct
      *
-     * @param AbstractOptions $options Connection Options
+     * - pass connection options on construct
+     *
+     * @param Array|AbstractOptions $options Connection Options
+     *
+     * @throws \Exception
      */
-    public function __construct(AbstractOptions $options = null)
+    public function __construct($options = null)
     {
-        if ($options !== null) {
-            foreach($options->props()->writable as $prop)
-                // Merge Options
-                $this->connection()->options()->{$prop} = $options->{$prop};
-        }
+        if ($options !== null)
+            if ($options instanceof AbstractOptions)
+                foreach($options->props()->writable as $opt)
+                    $this->connection()->options()->{$opt} = $options->{$opt};
+            elseif (is_array($options))
+                $this->connection()->options()->fromArray($options);
+            else
+                throw new \Exception(sprintf(
+                    'Constructor Except "Array" or Instanceof "AbstractOptions", but "%s" given.'
+                    , is_object($options) ? get_class($options) : gettype($options)
+                ));
     }
 
     /**
