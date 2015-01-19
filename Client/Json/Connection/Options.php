@@ -2,35 +2,46 @@
 namespace Poirot\Rpc\Client\Json\Connection;
 
 use Poirot\Core\AbstractOptions;
+use Poirot\Rpc\Client\Json\JsonConnection;
 
 class Options extends AbstractOptions
 {
+    /**
+     * ! Injected Connection To Refresh
+     *   Connection Resource
+     *
+     * @var JsonConnection
+     */
+    protected $connection;
+
     protected $serverUri;
-
     protected $connectionTimeout;
-
     protected $userAgent = 'JSON-RPC PHP Client';
 
     /**
      * @return mixed
      */
-    public function getServerUri()
+    function getServerUri()
     {
         return $this->serverUri;
     }
 
     /**
+     * ! refresh connection
+     *
      * @param mixed $serverUri
      */
-    public function setServerUri($serverUri)
+    function setServerUri($serverUri)
     {
         $this->serverUri = $serverUri;
+
+        $this->connection->refreshConnection = true;
     }
 
     /**
      * @return mixed
      */
-    public function getConnectionTimeout()
+    function getConnectionTimeout()
     {
         return $this->connectionTimeout;
     }
@@ -38,7 +49,7 @@ class Options extends AbstractOptions
     /**
      * @param mixed $connectionTimeout
      */
-    public function setConnectionTimeout($connectionTimeout)
+    function setConnectionTimeout($connectionTimeout)
     {
         $this->connectionTimeout = $connectionTimeout;
     }
@@ -46,7 +57,7 @@ class Options extends AbstractOptions
     /**
      * @return string
      */
-    public function getUserAgent()
+    function getUserAgent()
     {
         return $this->userAgent;
     }
@@ -54,8 +65,18 @@ class Options extends AbstractOptions
     /**
      * @param string $userAgent
      */
-    public function setUserAgent($userAgent)
+    function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+    }
+
+    /**
+     * Inject Connection
+     *
+     * @param JsonConnection $connection
+     */
+    function setConnection(JsonConnection $connection)
+    {
+        $this->connection = $connection;
     }
 }

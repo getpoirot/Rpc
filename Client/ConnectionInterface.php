@@ -12,7 +12,7 @@ interface ConnectionInterface extends OptionsProviderInterface
      *
      * @return mixed
      */
-    public function getConnection();
+    function getConnect();
 
     /**
      * Execute Expression by send to server
@@ -23,12 +23,12 @@ interface ConnectionInterface extends OptionsProviderInterface
      * @throws ExecuteException
      * @return mixed Server Result
      */
-    public function exec($expr);
+    function exec($expr);
 
     /**
      * Get Connection Engine Resource
      *
      * @return mixed
      */
-    public function getOrigin();
+    function getOrigin();
 }

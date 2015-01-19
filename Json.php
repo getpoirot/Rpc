@@ -10,10 +10,11 @@ use Poirot\Rpc\Client\Json\JsonPlatform;
 /**
  *
  * ~~~
- * $jsonRpc = new Json(
+ * $connection = new JsonConnection(
  *  # pass options as construct, the options will merge
  *  new Options(['server_uri' => '192.168.50.4:7080'])
  * );
+ * $jsonRpc = new Json($connection);
  *
  * # ResponseInterface
  * $response = $jsonRpc->request()
@@ -53,11 +54,11 @@ class Json extends AbstractClient
     /**
      * Construct
      *
-     * @param Array|JsonOptions $options
+     * @param JsonConnection $connection
      */
-    function __construct($options = null)
+    function __construct(JsonConnection $connection)
     {
-        parent::__construct($options);
+        parent::__construct($connection);
     }
 
     /**
@@ -76,23 +77,9 @@ class Json extends AbstractClient
     }
 
     /**
-     * Set Connection
-     *
-     * @param ConnectionInterface $conn Connection Interface
-     *
-     * @return $this
-     */
-    public function setConnection($conn)
-    {
-        $this->conn = $conn;
-
-        return $this;
-    }
-
-    /**
      * Get Connection Adapter
      *
-     * @return ConnectionInterface
+     * @return JsonConnection
      */
     public function connection()
     {

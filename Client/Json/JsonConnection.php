@@ -18,13 +18,20 @@ class JsonConnection implements ConnectionInterface
     protected $options;
 
     /**
+     * ! public for accessible from Options
+     *
+     * @var bool
+     */
+    public $refreshConnection = false;
+
+    /**
      * Get Prepared Resource Connection
      * - prepare resource on method access
      * - flag is connected
      *
      * @return mixed
      */
-    public function getConnection()
+    public function getConnect()
     {
         $ch = $this->getOrigin();
 
@@ -74,7 +81,7 @@ class JsonConnection implements ConnectionInterface
      */
     public function exec($expr)
     {
-        $ch = $this->getConnection();
+        $ch = $this->getConnect();
         curl_setopt($ch, CURLOPT_POSTFIELDS, $expr);
 
         if (!$result = curl_exec($ch))
@@ -90,7 +97,8 @@ class JsonConnection implements ConnectionInterface
      */
     public function options()
     {
-        ($this->options) ?: $this->options = new Options();
+        ($this->options) ?:
+            $this->options = new Options(['connection' => $this]); // inject connection
 
         return $this->options;
     }
@@ -102,7 +110,7 @@ class JsonConnection implements ConnectionInterface
      */
     public function getOrigin()
     {
-        if ($this->resource)
+        if ($this->resource && !$this->refreshConnection)
             return $this->resource;
 
         $ch = curl_init();
@@ -118,6 +126,9 @@ class JsonConnection implements ConnectionInterface
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
-        return $this->resource = $ch;
+        $this->resource = $ch;
+        $this->refreshConnection = false;
+
+        return $this->getOrigin();
     }
 }
