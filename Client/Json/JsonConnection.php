@@ -1,11 +1,11 @@
 <?php
 namespace Poirot\Rpc\Client\Json;
 
-use Poirot\Rpc\Client\ConnectionInterface;
+use Poirot\Rpc\Client\AbstractConnection;
 use Poirot\Rpc\Client\Json\Connection\Options;
 use Poirot\Rpc\Exception\ExecuteException;
 
-class JsonConnection implements ConnectionInterface
+class JsonConnection extends AbstractConnection
 {
     /**
      * @var mixed Resource
