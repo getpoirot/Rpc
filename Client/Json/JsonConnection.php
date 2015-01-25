@@ -1,8 +1,9 @@
 <?php
 namespace Poirot\Rpc\Client\Json;
 
+use Poirot\Core\AbstractOptions;
 use Poirot\Rpc\Client\AbstractConnection;
-use Poirot\Rpc\Client\Json\Connection\Options;
+use Poirot\Rpc\Client\Json\Connection\Options as JsonOptions;
 use Poirot\Rpc\Exception\ExecuteException;
 
 class JsonConnection extends AbstractConnection
@@ -13,7 +14,7 @@ class JsonConnection extends AbstractConnection
     protected $resource;
 
     /**
-     * @var Options
+     * @var JsonOptions
      */
     protected $options;
 
@@ -93,14 +94,35 @@ class JsonConnection extends AbstractConnection
     /**
      * Get Options
      *
-     * @return Options
+     * @return JsonOptions
      */
     public function options()
     {
         ($this->options) ?:
-            $this->options = new Options(['connection' => $this]); // inject connection
+            $this->options = self::optionsIns();
+
+        $this->options->setConnection($this);
 
         return $this->options;
+    }
+
+    /**
+     * Get An Bare Options Instance
+     *
+     * ! it used on easy access to options instance
+     *   before constructing class
+     *   [php]
+     *      $opt = Filesystem::optionsIns();
+     *      $opt->setSomeOption('value');
+     *
+     *      $class = new Filesystem($opt);
+     *   [/php]
+     *
+     * @return JsonOptions
+     */
+    static function optionsIns()
+    {
+        return new JsonOptions();
     }
 
     /**

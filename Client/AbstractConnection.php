@@ -14,19 +14,14 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @throws \Exception
      */
-    public function __construct($options = null)
+    public function __construct($options)
     {
-        if ($options !== null)
-            if ($options instanceof AbstractOptions)
-                foreach($options->props()->writable as $opt)
-                    $this->options()->{$opt} = $options->{$opt};
-            elseif (is_array($options))
-                $this->options()->fromArray($options);
-            else
-                throw new \Exception(sprintf(
-                    'Constructor Except "Array" or Instanceof "AbstractOptions", but "%s" given.'
-                    , is_object($options) ? get_class($options) : gettype($options)
-                ));
+        if (!$options instanceof AbstractOptions && !is_array($options))
+            throw new \Exception(sprintf(
+                'Constructor Except "Array" or Instanceof "AbstractOptions", but "%s" given.'
+                , is_object($options) ? get_class($options) : gettype($options)
+            ));
+
+        $this->options()->from($options);
     }
 }
- 
