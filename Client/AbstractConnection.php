@@ -14,8 +14,11 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @throws \Exception
      */
-    public function __construct($options)
+    public function __construct($options = null)
     {
+        if ($options == null)
+            return;
+
         if (!$options instanceof AbstractOptions && !is_array($options))
             throw new \Exception(sprintf(
                 'Constructor Except "Array" or Instanceof "AbstractOptions", but "%s" given.'
